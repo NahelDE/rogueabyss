@@ -3,6 +3,8 @@ package map;
 import java.util.ArrayList;
 import java.util.Random;
 
+import static java.lang.Math.min;
+
 public class Map {
     private int height, width;
 
@@ -25,6 +27,10 @@ public class Map {
                 visited[i][j] = false;
             }
         }
+    }
+
+    public ArrayList<int[]> getRoomCenters() {
+        return roomCenters;
     }
 
     public void roomGen(int roomNumber , int radius){
@@ -91,15 +97,47 @@ public class Map {
         }
     }
 
-    public void floodFill(int x , int y){
+    private void floodVerify(int x , int y){
         //but : faire une fonction recursive qui s'appelle sur les autres autour , comme une inondation qui se repend
         // on change le tab visited en fonction des cases qu'on visite , celle qui sont pas visité sont inacessible
-        if (map[x][y] == '.' || map[x][y] == '+') {
+        if ((map[x][y] == '.' || map[x][y] == '+') && !visited[x][y] ) {
             visited[x][y] = true;
-            floodFill(x-1,y);
-            floodFill(x,y-1);
-            floodFill(x+1,y);
-            floodFill(x,y+1);
+            floodVerify(x-1,y);
+            floodVerify(x,y-1);
+            floodVerify(x+1,y);
+            floodVerify(x,y+1);
+        }
+    }
+
+    public void floodFill(int x , int y){
+        //fonction qui utilise la fct floodVerify pour enlever les sols inacessible
+        floodVerify(x,y);
+
+        for (int i = 0; i < visited.length; i++) {
+            for (int j = 0; j < visited[i].length; j++) {
+                if (!visited[i][j]) {
+                    map[i][j] = '#';
+                }
+            }
+        }
+
+    }
+
+    public void makeCorridor(){
+        for(int i = 0 ; i < roomCenters.size() -1; i++){
+            int x1 = roomCenters.get(i)[0];
+            int y1 = roomCenters.get(i)[1];
+            int x2 = roomCenters.get(i+1)[0];
+            int y2 = roomCenters.get(i+1)[1];
+
+            for(int x = Math.min(x1,x2); x < Math.max(x1,x2); x++){
+                map[x][y1]= '.';
+            }
+
+            for(int y = Math.min(y1,y2); y < Math.max(y1,y2); y++){
+                map[x2][y]= '.';
+            }
+
         }
     }
 
@@ -108,9 +146,12 @@ public class Map {
         String str = "";
         for (int i = 0; i < height; i++) {
             for (int j = 0; j < width; j++) {
-                str += map[i][j];
+
                 if (visited[i][j]) {
-                    map[i][j]='V';
+                    str += '~';
+                }
+                else {
+                    str += map[i][j];
                 }
 
             }
@@ -118,4 +159,6 @@ public class Map {
         }
         return str;
     }
+
+
 }
