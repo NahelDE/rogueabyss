@@ -1,0 +1,106 @@
+package game;
+
+import entities.Ennemy;
+import entities.Player;
+import map.Map;
+
+import javax.swing.*;
+import java.awt.*;
+import java.awt.event.KeyAdapter;
+import java.awt.event.KeyEvent;
+import java.util.Random;
+
+public class Game extends JPanel {
+    private char[][] currentMap;
+    int tileSize = 20;
+
+    Map map;
+    Player player;
+    Ennemy[] ennemies = new Ennemy[2];
+
+    public Game() {
+        map = new Map(40,60);
+        map.generateMap(10,5,2,10);
+        currentMap = map.getMap();
+        player = new Player(map.getRoomCenters().get(0)[1],map.getRoomCenters().get(0)[0],10);
+
+        System.out.println(map.toString());
+
+        ennemies[0]= new Ennemy(map.getRoomCenters().get(1)[1],map.getRoomCenters().get(1)[0],10);
+        ennemies[1]= new Ennemy(map.getRoomCenters().get(2)[1],map.getRoomCenters().get(2)[0],10);
+
+        setFocusable(true); // permet de recevoir le clavier
+        requestFocusInWindow(); // demande le focus
+        addKeyListener(new KeyAdapter() {
+            @Override
+            public void keyPressed(KeyEvent e) {
+                int keyCode = e.getKeyCode();
+                switch(keyCode) {
+                    case KeyEvent.VK_Z: // haut
+                        player.moveUp(currentMap);
+                        break;
+                    case KeyEvent.VK_S: // bas
+                        player.moveDown(currentMap);
+                        break;
+                    case KeyEvent.VK_Q: // gauche
+                        player.moveLeft(currentMap);
+                        break;
+                    case KeyEvent.VK_D: // droite
+                        player.moveRight(currentMap);
+                        break;
+                }
+                updateEnnemies();
+                repaint();
+            }
+        });
+
+
+        setPreferredSize(new Dimension(currentMap[0].length * tileSize, currentMap.length * tileSize));
+    }
+
+    public void paintComponent(Graphics g) {
+        for(int i = 0; i < currentMap.length; i++) {
+            for(int j = 0; j < currentMap[i].length; j++) {
+                if(currentMap[i][j] == '#') {
+                    g.setColor(Color.BLACK);
+                }
+                else if (currentMap[i][j] == '.') {
+                    g.setColor(Color.GRAY);
+                }
+                else if (currentMap[i][j] == '+') {
+                    g.setColor(Color.DARK_GRAY);
+                }
+                g.fillRect(j*tileSize, i*tileSize, tileSize, tileSize);
+            }
+        }
+        g.setColor(Color.GREEN);
+        g.fillRect(player.getX()*tileSize, player.getY()*tileSize, tileSize, tileSize);
+
+        g.setColor(Color.RED);
+        for(int i = 0; i < ennemies.length; i++) {
+            g.fillRect(ennemies[i].getX()*tileSize, ennemies[i].getY()*tileSize, tileSize, tileSize);
+        }
+    }
+
+    public void updateEnnemies(){
+        for(int i = 0; i < ennemies.length; i++) {
+            Random r = new Random();
+            int x = r.nextInt(0,4);
+
+            switch (x){
+                case 0:
+                    ennemies[i].moveRight(currentMap);
+                    break;
+                case 1:
+                    ennemies[i].moveLeft(currentMap);
+                    break;
+                case 2:
+                    ennemies[i].moveDown(currentMap);
+                    break;
+                case 3:
+                    ennemies[i].moveUp(currentMap);
+                    break;
+            }
+        }
+    }
+}

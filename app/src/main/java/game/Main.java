@@ -1,20 +1,19 @@
 package game;
 
-import map.Map;
+import javax.swing.*;
 
 public class Main {
-    public static void main(String[] args) {
+    public static void main(String[] args){
 
-        Map map = new Map(40,60);
+        JFrame frame = new JFrame("RogueAbyss");
+        Game game = new Game();
 
-        map.roomGen(10,5);
-        map.roomFill(2,10);
-        map.makeCorridor();
+        frame.add(game);
+        frame.pack();
+        frame.setLocationRelativeTo(null);
 
-        System.out.println(map.toString());
+        frame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
+        frame.setVisible(true);
 
-        map.floodFill(map.getRoomCenters().get(0)[0],map.getRoomCenters().get(0)[1]);
-
-        System.out.println(map.toString());
     }
 }

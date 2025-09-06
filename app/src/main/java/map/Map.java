@@ -33,6 +33,10 @@ public class Map {
         return roomCenters;
     }
 
+    public char[][] getMap() {
+        return map;
+    }
+
     public void roomGen(int roomNumber , int radius){
         // le but de cette fonction est de generer $roomNumber sols dans une map a des endroits random
         // séparé de radius cases
@@ -88,7 +92,7 @@ public class Map {
                 for (int y = roomCenters.get(i)[1]-radius; y <= roomCenters.get(i)[1]+radius; y++) {
                     //on verifie que la pos est dans les bounds
                     if (x > 0 && x < height - 1 && y > 0 && y < width -1 && !(x == roomCenters.get(i)[0] && y == roomCenters.get(i)[1])) {
-                        if (rand.nextInt(0,100) >= percentage) {
+                        if (rand.nextInt(0,100) >= percentage && map[x][y] != '+') {
                             map[x][y] = '.';
                         }
                     }
@@ -130,15 +134,28 @@ public class Map {
             int x2 = roomCenters.get(i+1)[0];
             int y2 = roomCenters.get(i+1)[1];
 
-            for(int x = Math.min(x1,x2); x < Math.max(x1,x2); x++){
-                map[x][y1]= '.';
+            for(int x = Math.min(x1,x2); x < Math.max(x1,x2); x++) {
+                if (map[x][y1] != '+'){
+                    map[x][y1] = '.';
+                }
             }
 
             for(int y = Math.min(y1,y2); y < Math.max(y1,y2); y++){
-                map[x2][y]= '.';
+                if (map[x2][y] != '+'){
+                    map[x2][y]= '.';
+                }
             }
 
+
+
         }
+    }
+
+    public void generateMap(int roomNumber , int radiusBeetweenRoom , int radiusFill , int percentage){
+        this.roomGen(roomNumber,radiusBeetweenRoom);
+        this.roomFill(radiusFill,percentage);
+        this.makeCorridor();
+        this.floodFill(this.getRoomCenters().get(0)[0],this.getRoomCenters().get(0)[1]);
     }
 
     @Override
@@ -146,13 +163,8 @@ public class Map {
         String str = "";
         for (int i = 0; i < height; i++) {
             for (int j = 0; j < width; j++) {
+                str += map[i][j];
 
-                if (visited[i][j]) {
-                    str += '~';
-                }
-                else {
-                    str += map[i][j];
-                }
 
             }
             str += "\n";
