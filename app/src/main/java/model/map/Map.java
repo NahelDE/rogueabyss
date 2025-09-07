@@ -137,12 +137,18 @@ public class Map {
             for(int x = Math.min(x1,x2); x < Math.max(x1,x2); x++) {
                 if (map[x][y1] != '+'){
                     map[x][y1] = '.';
+
+                    // double corri
+                    map[x][y1-1] = '.';
                 }
             }
 
             for(int y = Math.min(y1,y2); y < Math.max(y1,y2); y++){
                 if (map[x2][y] != '+'){
                     map[x2][y]= '.';
+
+                    // double corri
+                    map[x2-1][y]= '.';
                 }
             }
 

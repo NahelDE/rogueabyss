@@ -15,8 +15,8 @@ public class GameModel {
     Ennemy[] ennemies = new Ennemy[2];
 
     public GameModel() {
-        map = new Map(40, 60);
-        map.generateMap(10, 5, 2, 5);
+        map = new Map(80, 100);
+        map.generateMap(16, 10, 4, 10);
         currentMap = map.getMap();
         player = new Player(map.getRoomCenters().get(0)[1], map.getRoomCenters().get(0)[0], 10,5);
 
@@ -34,28 +34,24 @@ public class GameModel {
 
             switch (x) {
                 case 0:
-                    if(player.isAlive() && (player.getX() == ennemies[i].getX()+1) && (player.getY() == ennemies[i].getY())){
-                            break;
+                    if(!isOccupied(ennemies[i].getX()+1, ennemies[i].getY())) {
+                        ennemies[i].moveRight(currentMap);
                     }
-                    ennemies[i].moveRight(currentMap);
                     break;
                 case 1:
-                    if(player.isAlive() && (player.getX() == ennemies[i].getX()-1) && (player.getY() == ennemies[i].getY())){
-                        break;
+                    if(!isOccupied(ennemies[i].getX()-1, ennemies[i].getY())) {
+                        ennemies[i].moveLeft(currentMap);
                     }
-                    ennemies[i].moveLeft(currentMap);
                     break;
                 case 2:
-                    if(player.isAlive() && (player.getX() == ennemies[i].getX()) && (player.getY() == ennemies[i].getY()-1)){
-                        break;
+                    if(!isOccupied(ennemies[i].getX(), ennemies[i].getY()+1)) {
+                        ennemies[i].moveDown(currentMap);
                     }
-                    ennemies[i].moveDown(currentMap);
                     break;
                 case 3:
-                    if(player.isAlive() && (player.getX() == ennemies[i].getX()) && (player.getY() == ennemies[i].getY()+1)){
-                        break;
+                    if(!isOccupied(ennemies[i].getX(), ennemies[i].getY()-1)) {
+                        ennemies[i].moveUp(currentMap);
                     }
-                    ennemies[i].moveUp(currentMap);
                     break;
             }
         }
@@ -80,41 +76,42 @@ public class GameModel {
     public int getTileSize() { return TILE_SIZE; }
 
     public void movePlayerUp() {
-        for (Ennemy e : ennemies) {
-            if(e.isAlive() && (player.getX() == e.getX()) && (player.getY()+1 == e.getY())){
-                break;
-            }
+        if(!isOccupied(player.getX(), player.getY()-1)) {
+            player.moveUp(currentMap);
         }
-        player.moveUp(currentMap);
     }
     public void movePlayerDown() {
-        for (Ennemy e : ennemies) {
-            if(e.isAlive() && (player.getX() == e.getX()) && (player.getY()-1 == e.getY())){
-                break;
-            }
+        if(!isOccupied(player.getX(), player.getY()+1)) {
+            player.moveDown(currentMap);
         }
-        player.moveDown(currentMap);
     }
 
     public void movePlayerLeft() {
-        for (Ennemy e : ennemies) {
-            if(e.isAlive() && (player.getX()-1 == e.getX()) && (player.getY() == e.getY())){
-                break;
-            }
+        if(!isOccupied(player.getX()-1, player.getY())) {
+            player.moveLeft(currentMap);
         }
-        player.moveLeft(currentMap);
     }
     public void movePlayerRight() {
-        for (Ennemy e : ennemies) {
-            if(e.isAlive() && (player.getX()+1 == e.getX()) && (player.getY() == e.getY())){
-                break;
-            }
+        if(!isOccupied(player.getX()+1, player.getY())) {
+            player.moveRight(currentMap);
         }
-        player.moveRight(currentMap);
     }
 
     public void attack() {
         Ennemy target = getAdjacentEnnemy();
         if (target != null) {player.attack(target);}
+    }
+
+    public boolean isOccupied(int x , int y) {
+        for (Ennemy e : ennemies) {
+            if (e.getX() == x && e.getY() == y && e.isAlive()) {
+                return true;
+            }
+        }
+        if (player.getX() == x && player.getY() == y && player.isAlive()) {
+            return true;
+        }
+
+        return false;
     }
 }
