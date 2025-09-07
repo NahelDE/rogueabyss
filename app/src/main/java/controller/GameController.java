@@ -1,6 +1,7 @@
 package controller;
 
 import model.GameModel;
+import model.entities.Ennemy;
 import view.GamePanel;
 
 import java.awt.event.KeyAdapter;
@@ -19,7 +20,9 @@ public class GameController extends KeyAdapter {
             case KeyEvent.VK_S: model.movePlayerDown(); break;
             case KeyEvent.VK_Q: model.movePlayerLeft(); break;
             case KeyEvent.VK_D: model.movePlayerRight(); break;
+            case KeyEvent.VK_SPACE: model.attack(); break;
         }
+        view.updateHpLabel();
         model.updateEnnemies();
         view.repaint();
     }

@@ -1,12 +1,8 @@
 package model.entities;
 
 public class Ennemy extends Entity{
-    private int x;
-    private int y;
-    private int hp;
-
-    public Ennemy(int x , int y , int hp){
-        super(x,y,hp);
+    public Ennemy(int x , int y , int hpMax,int attack){
+        super(x,y,hpMax,attack);
     }
 
     public void moveUp(char[][] map) {
