@@ -49,9 +49,6 @@ public class GameModel {
         }
     }
 
-    public attack(){
-
-    }
 
     public char[][] getCurrentMap() { return currentMap; }
     public Player getPlayer() { return player; }
