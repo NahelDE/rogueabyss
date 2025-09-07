@@ -8,10 +8,10 @@ public class Main {
     public static void main(String[] args){
 
         JFrame frame = new JFrame("RogueAbyss");
-        Game game = new Game();
+        GamePanel gamePanel = new GamePanel();
         JLabel hpLabel = new JLabel("HP:");
 
-        frame.add(game, BorderLayout.CENTER);
+        frame.add(gamePanel, BorderLayout.CENTER);
         frame.add(hpLabel, BorderLayout.NORTH);
         frame.pack();
         frame.setLocationRelativeTo(null);

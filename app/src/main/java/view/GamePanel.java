@@ -1,18 +1,13 @@
 package view;
 
-import model.entities.Ennemy;
-import model.entities.Player;
-import model.map.Map;
-
 import javax.swing.*;
 import java.awt.*;
 import java.awt.event.KeyAdapter;
 import java.awt.event.KeyEvent;
-import java.util.Random;
 
-public class Game extends JPanel {
+public class GamePanel extends JPanel {
 
-    public Game() {
+    public GamePanel() {
 
         setFocusable(true); // permet de recevoir le clavier
         requestFocusInWindow(); // demande le focus
@@ -64,28 +59,6 @@ public class Game extends JPanel {
         g.setColor(Color.RED);
         for(int i = 0; i < ennemies.length; i++) {
             g.fillRect(ennemies[i].getX()*tileSize, ennemies[i].getY()*tileSize, tileSize, tileSize);
-        }
-    }
-
-    public void updateEnnemies(){
-        for(int i = 0; i < ennemies.length; i++) {
-            Random r = new Random();
-            int x = r.nextInt(0,4);
-
-            switch (x){
-                case 0:
-                    ennemies[i].moveRight(currentMap);
-                    break;
-                case 1:
-                    ennemies[i].moveLeft(currentMap);
-                    break;
-                case 2:
-                    ennemies[i].moveDown(currentMap);
-                    break;
-                case 3:
-                    ennemies[i].moveUp(currentMap);
-                    break;
-            }
         }
     }
 }
