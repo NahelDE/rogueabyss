@@ -1,5 +1,7 @@
 package view;
 
+import model.GameModel;
+
 import javax.swing.*;
 import java.awt.*;
 
@@ -8,7 +10,9 @@ public class Main {
     public static void main(String[] args){
 
         JFrame frame = new JFrame("RogueAbyss");
-        GamePanel gamePanel = new GamePanel();
+        GameModel model = new GameModel();
+        GamePanel gamePanel = new GamePanel(model);
+        
         JLabel hpLabel = new JLabel("HP:");
 
         frame.add(gamePanel, BorderLayout.CENTER);

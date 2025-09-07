@@ -8,7 +8,7 @@ import java.util.Random;
 
 public class GameModel {
     private char[][] currentMap;
-    int tileSize = 20;
+    private final int TILE_SIZE = 20;
 
     Map map;
     Player player;
@@ -52,6 +52,7 @@ public class GameModel {
     public char[][] getCurrentMap() { return currentMap; }
     public Player getPlayer() { return player; }
     public Ennemy[] getEnnemies() { return ennemies; }
+    public int getTileSize() { return TILE_SIZE; }
 
     public void movePlayerUp() { player.moveUp(currentMap); }
     public void movePlayerDown() { player.moveDown(currentMap); }
