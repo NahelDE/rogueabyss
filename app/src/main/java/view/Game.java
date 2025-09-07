@@ -1,8 +1,8 @@
-package game;
+package view;
 
-import entities.Ennemy;
-import entities.Player;
-import map.Map;
+import model.entities.Ennemy;
+import model.entities.Player;
+import model.map.Map;
 
 import javax.swing.*;
 import java.awt.*;

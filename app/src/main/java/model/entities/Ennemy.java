@@ -1,11 +1,11 @@
-package entities;
+package model.entities;
 
-public class Player {
+public class Ennemy {
     private int x;
     private int y;
     private int hp;
 
-    public Player(int x , int y , int hp){
+    public Ennemy(int x , int y , int hp){
         this.x = x;
         this.y = y;
         this.hp = hp;
