@@ -18,8 +18,6 @@ public class GamePanel extends JPanel {
 
         setFocusable(true); // permet de recevoir le clavier
         requestFocusInWindow(); // demande le focus
-        addKeyListener(new GameController(model, this));
-
         setPreferredSize(new Dimension(model.getCurrentMap()[0].length * TILE_SIZE, model.getCurrentMap().length * TILE_SIZE));
     }
 

@@ -1,5 +1,6 @@
 package view;
 
+import controller.GameController;
 import model.GameModel;
 
 import javax.swing.*;
@@ -12,7 +13,9 @@ public class Main {
         JFrame frame = new JFrame("RogueAbyss");
         GameModel model = new GameModel();
         GamePanel gamePanel = new GamePanel(model);
-        
+        GameController gameController = new GameController(model, gamePanel);
+        gamePanel.addKeyListener(gameController);
+
         JLabel hpLabel = new JLabel("HP:");
 
         frame.add(gamePanel, BorderLayout.CENTER);
