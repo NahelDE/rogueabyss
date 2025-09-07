@@ -11,23 +11,8 @@ import java.awt.event.KeyEvent;
 import java.util.Random;
 
 public class Game extends JPanel {
-    private char[][] currentMap;
-    int tileSize = 20;
-
-    Map map;
-    Player player;
-    Ennemy[] ennemies = new Ennemy[2];
 
     public Game() {
-        map = new Map(40,60);
-        map.generateMap(10,5,2,10);
-        currentMap = map.getMap();
-        player = new Player(map.getRoomCenters().get(0)[1],map.getRoomCenters().get(0)[0],10);
-
-        System.out.println(map.toString());
-
-        ennemies[0]= new Ennemy(map.getRoomCenters().get(1)[1],map.getRoomCenters().get(1)[0],10);
-        ennemies[1]= new Ennemy(map.getRoomCenters().get(2)[1],map.getRoomCenters().get(2)[0],10);
 
         setFocusable(true); // permet de recevoir le clavier
         requestFocusInWindow(); // demande le focus
