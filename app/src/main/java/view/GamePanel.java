@@ -1,44 +1,34 @@
 package view;
 
+import controller.GameController;
+import model.GameModel;
+import model.entities.Ennemy;
+import model.entities.Player;
+
 import javax.swing.*;
 import java.awt.*;
 import java.awt.event.KeyAdapter;
 import java.awt.event.KeyEvent;
 
 public class GamePanel extends JPanel {
+    GameModel model;
 
-    public GamePanel() {
+
+    public GamePanel(GameModel model) {
+        this.model = model;
 
         setFocusable(true); // permet de recevoir le clavier
         requestFocusInWindow(); // demande le focus
-        addKeyListener(new KeyAdapter() {
-            @Override
-            public void keyPressed(KeyEvent e) {
-                int keyCode = e.getKeyCode();
-                switch(keyCode) {
-                    case KeyEvent.VK_Z: // haut
-                        player.moveUp(currentMap);
-                        break;
-                    case KeyEvent.VK_S: // bas
-                        player.moveDown(currentMap);
-                        break;
-                    case KeyEvent.VK_Q: // gauche
-                        player.moveLeft(currentMap);
-                        break;
-                    case KeyEvent.VK_D: // droite
-                        player.moveRight(currentMap);
-                        break;
-                }
-                updateEnnemies();
-                repaint();
-            }
-        });
+        addKeyListener(new GameController(model, this));
 
-
-        setPreferredSize(new Dimension(currentMap[0].length * tileSize, currentMap.length * tileSize));
+        setPreferredSize(new Dimension(model.getCurrentMap()[0].length * tileSize, model.getCurrentMap().length * tileSize));
     }
 
     public void paintComponent(Graphics g) {
+        char [][]currentMap = model.getCurrentMap();
+        Player player = model.getPlayer();
+        Ennemy[] ennemies = model.getEnnemies();
+
         for(int i = 0; i < currentMap.length; i++) {
             for(int j = 0; j < currentMap[i].length; j++) {
                 if(currentMap[i][j] == '#') {
