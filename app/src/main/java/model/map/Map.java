@@ -101,6 +101,47 @@ public class Map {
         }
     }
 
+    public void roomFillWithModel(){
+        Random rand = new Random();
+
+        for (int i = 0; i < roomCenters.size(); i++) {
+            char[][] choice;
+
+            switch(rand.nextInt(0,6)){
+                case 0:
+                    choice = RoomModel.ROOM_BOX.getPattern();
+                    break;
+                case 1:
+                    choice = RoomModel.ROOM_OPEN.getPattern();
+                    break;
+                case 2:
+                    choice = RoomModel.ROOM_CIRCLE.getPattern();
+                    break;
+                case 3:
+                    choice = RoomModel.ROOM_CROSS.getPattern();
+                    break;
+                case 4:
+                    choice = RoomModel.ROOM_PILLARS.getPattern();
+                    break;
+                case 5:
+                    choice = RoomModel.ROOM_HALL.getPattern();
+                    break;
+
+                default:
+                    choice = RoomModel.ROOM_OPEN.getPattern();
+            }
+
+            for(int x = 0; x < choice.length; x++){
+                for(int y = 0; y < choice[x].length; y++){
+                    if (roomCenters.get(i)[0]-3 +x > 0 && roomCenters.get(i)[0]-3 +x < height -1 &&
+                            (roomCenters.get(i)[1]-3 +y > 0 && roomCenters.get(i)[1]-3 +y < width - 1)) {
+                        map[roomCenters.get(i)[0]-3 +x ][roomCenters.get(i)[1]-3 +y] = choice[x][y];
+                    }
+                }
+            }
+        }
+    }
+
     private void floodVerify(int x , int y){
         //but : faire une fonction recursive qui s'appelle sur les autres autour , comme une inondation qui se repend
         // on change le tab visited en fonction des cases qu'on visite , celle qui sont pas visité sont inacessible
@@ -138,8 +179,7 @@ public class Map {
                 if (map[x][y1] != '+'){
                     map[x][y1] = '.';
 
-                    // double corri
-                    map[x][y1-1] = '.';
+
                 }
             }
 
@@ -147,8 +187,7 @@ public class Map {
                 if (map[x2][y] != '+'){
                     map[x2][y]= '.';
 
-                    // double corri
-                    map[x2-1][y]= '.';
+
                 }
             }
 
@@ -162,6 +201,12 @@ public class Map {
         this.roomFill(radiusFill,percentage);
         this.makeCorridor();
         this.floodFill(this.getRoomCenters().get(0)[0],this.getRoomCenters().get(0)[1]);
+    }
+
+    public void generateMap(int roomNumber , int radiusBeetweenRoom){
+        this.roomGen(roomNumber,radiusBeetweenRoom);
+        this.roomFillWithModel();
+        this.makeCorridor();
     }
 
     @Override

@@ -16,7 +16,8 @@ public class GameModel {
 
     public GameModel() {
         map = new Map(80, 100);
-        map.generateMap(16, 10, 4, 10);
+        //map.generateMap(16, 10, 6, 5);
+        map.generateMap(10,10);
         currentMap = map.getMap();
         player = new Player(map.getRoomCenters().get(0)[1], map.getRoomCenters().get(0)[0], 10,5);
 
